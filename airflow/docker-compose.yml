@@ -1,7 +1,3 @@
-version: '3.8'
-
-
-
 x-airflow-common:
 
   &airflow-common
@@ -156,7 +152,7 @@ services:
 
     depends_on:
 
-      postgres:
+      db:
 
         condition: service_healthy
 
