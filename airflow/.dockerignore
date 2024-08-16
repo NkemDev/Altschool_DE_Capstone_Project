@@ -1,0 +1,13 @@
+# Exclude logs
+logs/
+
+# Exclude temporary files
+*.tmp
+*.log
+
+# Exclude Dockerfile and .dockerignore themselves
+Dockerfile
+.dockerignore
+
+# Exclude git files
+.git/
