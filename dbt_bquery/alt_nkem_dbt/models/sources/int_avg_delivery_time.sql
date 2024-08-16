@@ -7,7 +7,7 @@ with order_delivery as(
     order_status,
     order_purchase_timestamp,
     order_delivered_customer_date,
-    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, minute) as delivery_time_minutes
+    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) as delivery_time_minutes
     from {{(ref('stg_orders'))}}
     )
 select 

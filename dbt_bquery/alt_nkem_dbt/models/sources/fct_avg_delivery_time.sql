@@ -7,10 +7,10 @@ with fct_order_delivery as(
     order_status,
     order_purchase_timestamp,
     order_delivered_customer_date,
-    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, minute) as delivery_time_minutes
+    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) as delivery_time_minutes
     from {{(ref('stg_orders'))}}
     where order_status ='delivered'
-    and TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, minute) is not null
+    and TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) is not null
     )
 select 
     order_id,
