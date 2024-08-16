@@ -1,0 +1,6 @@
+airflow/config/
+pg_data
+postgres-db-volume
+_pycache_
+.venv
+logs
