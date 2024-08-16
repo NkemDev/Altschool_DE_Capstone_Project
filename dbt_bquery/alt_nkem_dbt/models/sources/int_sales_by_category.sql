@@ -10,7 +10,7 @@ WITH product_data AS (
     JOIN 
         {{ ref('stg_order_items') }} o 
     ON 
-        p.product_id = o.product_id  -- Cast if necessary
+        p.product_id = o.product_id  
     JOIN 
         {{ ref('stg_orders') }} oo 
     ON
