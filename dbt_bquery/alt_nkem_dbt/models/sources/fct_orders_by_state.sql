@@ -11,7 +11,7 @@ with source as(
     JOIN
         {{ref ('stg_customers')}}c 
     on 
-        o.customer_id =c.customer_ids
+        o.customer_id =c.customer_id
     where o.order_status ='delivered'
     group by 
         c.customer_state

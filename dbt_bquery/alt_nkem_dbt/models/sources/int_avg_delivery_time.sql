@@ -1,17 +1,19 @@
 {{ config(
     materialized='table'
 ) }}
-with order_delivery as(
-    select 
+WITH source AS (
+    SELECT
+        order_id,
+        DATE_DIFF(
+            DATE(SAFE_CAST(order_delivered_customer_date AS TIMESTAMP)),
+            DATE(SAFE_CAST(order_purchase_timestamp AS TIMESTAMP)),
+            DAY
+        ) AS delivery_time_days
+    FROM {{ ref('stg_orders') }}
+    
+)SELECT
     order_id,
-    order_status,
-    order_purchase_timestamp,
-    order_delivered_customer_date,
-    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) as delivery_time_minutes
-    from {{(ref('stg_orders'))}}
-    )
-select 
-    order_id,
-    avg(delivery_time_minutes) as average_delivery_time
-from order_delivery
-group by order_id
+    AVG(delivery_time_days) AS avg_delivery_time_days
+FROM source
+group by order_id 
+order by avg_delivery_time_days

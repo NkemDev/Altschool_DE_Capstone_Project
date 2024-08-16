@@ -1,20 +1,22 @@
 {{ config(
     materialized='table'
 ) }}
-with fct_order_delivery as(
-    select 
+WITH source AS (
+    SELECT
+        order_id,
+        DATE_DIFF(
+            DATE(SAFE_CAST(order_delivered_customer_date AS TIMESTAMP)),
+            DATE(SAFE_CAST(order_purchase_timestamp AS TIMESTAMP)),
+            DAY
+        ) AS delivery_time_days
+    FROM {{ ref('stg_orders') }}
+    WHERE order_delivered_customer_date IS NOT NULL
+      AND order_purchase_timestamp IS NOT NULL
+      AND SAFE_CAST(order_delivered_customer_date AS TIMESTAMP) IS NOT NULL
+      AND SAFE_CAST(order_purchase_timestamp AS TIMESTAMP) IS NOT NULL
+)SELECT
     order_id,
-    order_status,
-    order_purchase_timestamp,
-    order_delivered_customer_date,
-    TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) as delivery_time_minutes
-    from {{(ref('stg_orders'))}}
-    where order_status ='delivered'
-    and TIMESTAMP_DIFF(order_delivered_customer_date,order_purchase_timestamp, day) is not null
-    )
-select 
-    order_id,
-    avg(delivery_time_minutes) as average_delivery_time
-from fct_order_delivery
-group by order_id
-order by average_delivery_time desc
+    AVG(delivery_time_days) AS avg_delivery_time_days
+FROM source
+group by order_id 
+order by avg_delivery_time_days
