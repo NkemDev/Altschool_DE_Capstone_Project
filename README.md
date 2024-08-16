@@ -547,6 +547,8 @@ run `docker-compose up` this will create the containers and build the docker ima
 
 ![alt text](/pics/postgresdatabase.png)
 This is the view of the loaded datafiles each as a table in postgres database
+
+
 ## Airflow Dag
 This is a python script that will orchestrate a task. In this case I want to load the tables from the ecommerce database into bigquery. Here is the dag script `py_to_gcs.py`
 ```
@@ -617,10 +619,17 @@ with DAG(
         start >> postgres_to_gcs >> gcs_to_bigquery >> end
 ```
 Before this works you have to set up connections from Airflow to Postgres and Airflow to GCP. Make there is a service account with the appropriate permissions to write and read files
+
+
 ![alt text](/pics/postgrescon.png)
+
+
 ![alt text](/pics/google_cloud.png)
+
+
 The connection is then tested to see if it works correctly.
 When the dag is created and started on the webserver. This will the load the data from postgres into bigquery
+
 ![alt text](/pics/airflowgraph.png)
 
 ## Data Transformation with DBT
