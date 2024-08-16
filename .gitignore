@@ -1,6 +1,6 @@
 airflow/config/
 pg_data
 postgres-db-volume
-__pycache__
+airflow/dags/__pycache__
 .venv
 logs
