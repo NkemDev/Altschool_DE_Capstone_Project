@@ -635,8 +635,10 @@ When the dag is created and started on the webserver. This will the load the dat
 ## Data Transformation with DBT
 DBT builds and transform models into the desired specification. According to the questions required for this project, out of the nine tables given only four will be required to be changed to staging models
 ![alt text](/pics/dbt_1.png)
+
 Staging models are one-to-one mapping with their sources and the materialization is in views.
 The intermediate models could be transformng of a staging models or joining of two or more models to make another model. 
 The final model is a fine tuning of the intermediate model
 ## Result Report of Final Model
+
 ![alt text](/pics/correcttime.png)
